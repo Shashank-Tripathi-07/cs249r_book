@@ -83,7 +83,7 @@ class TestWidgetStructure:
         """Every mo.ui.radio() should have at least 2 options."""
         if "lab_00" in lab_path:
             pytest.skip("Lab 00 is orientation")
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         radios = extract_radio_options(source)
         if not radios:
             pytest.skip("No radio widgets found")
@@ -93,7 +93,7 @@ class TestWidgetStructure:
     @pytest.mark.widget
     def test_slider_ranges_valid(self, lab_path):
         """Every slider should have start < stop."""
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         sliders = extract_slider_ranges(source)
         for s in sliders:
             assert s["start"] < s["stop"], (
@@ -105,7 +105,7 @@ class TestWidgetStructure:
         """Labs should have interactive elements (sliders, dropdowns, or radios)."""
         if "lab_00" in lab_path:
             pytest.skip("Lab 00 is orientation")
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         slider_count = source.count("mo.ui.slider")
         dropdown_count = source.count("mo.ui.dropdown")
         radio_count = source.count("mo.ui.radio")
@@ -118,7 +118,7 @@ class TestWidgetStructure:
         Predictions should use radio/number/dropdown, never free text.
         Check that mo.ui.text_area() and mo.ui.text() are not used for predictions.
         """
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         # Look for text inputs near "predict" keywords
         lines = source.split("\n")
         for i, line in enumerate(lines, 1):
@@ -247,7 +247,7 @@ class TestPredictionRevealPattern:
         """Labs should show 'You predicted X, actual is Y' text."""
         if "lab_00" in lab_path:
             pytest.skip("Lab 00 is orientation")
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         reveal_markers = [
             "You predicted",
             "you predicted",
@@ -268,7 +268,7 @@ class TestPredictionRevealPattern:
         """
         if "lab_00" in lab_path:
             pytest.skip("Lab 00 is orientation")
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         has_gate = "mo.stop" in source or "is None" in source
         assert has_gate, "No prediction gate found (mo.stop or None check)"
 
@@ -277,7 +277,7 @@ class TestPredictionRevealPattern:
         """Labs should have collapsible math formula sections."""
         if "lab_00" in lab_path:
             pytest.skip("Lab 00 is orientation")
-        source = Path(lab_path).read_text()
+        source = Path(lab_path).read_text(encoding="utf-8")
         has_math = (
             "mo.accordion" in source
             or "Math Peek" in source

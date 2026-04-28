@@ -35,7 +35,7 @@ ORIENTATION_LABS = {"lab_00_introduction"}
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 def read_source(lab_path: str) -> str:
-    with open(lab_path) as f:
+    with open(lab_path, encoding="utf-8") as f:
         return f.read()
 
 
